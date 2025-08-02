@@ -43,8 +43,8 @@ const AppProvider = ({children}) =>{
   
   const loadBanners = async () => {
     try {
-      const slider_data = await api.fetchSliderData();
-      setSliderList(slider_data);
+      const slider_data = await api.fetchData("slider");
+      setSliderList(slider_data.sort((a, b) => a.order - b.order));
     } catch {
       setSliderErrorMessage("Connection error: cannot display content");
     } finally {
@@ -54,11 +54,15 @@ const AppProvider = ({children}) =>{
 
   const loadGames = async () => {
     try {
-      const game_data = await api.fetchGameData();
-      setGamesList(game_data.map((item)=>({...item, show: true})));
-      setNewGamesList(game_data.filter((item) => item.new === true).map((item)=>({...item, show: true})));
-      setSlotsGamesList(game_data.filter((item) => item.type === "slot").map((item)=>({...item, show: true})));
-      setTableGamesList(game_data.filter((item) => item.type === "table").map((item)=>({...item, show: true})));
+      const game_data = await api.fetchData("games");
+      setGamesList(game_data.map((item)=>({...item, show: true}))
+        .sort((a, b) => a.order - b.order));
+      setNewGamesList(game_data.filter((item) => item.new === true)
+        .map((item)=>({...item, show: true})).sort((a, b) => a.new_order - b.new_order));
+      setSlotsGamesList(game_data.filter((item) => item.type === "slot")
+        .map((item)=>({...item, show: true})).sort((a, b) => a.cat_order - b.cat_order));
+      setTableGamesList(game_data.filter((item) => item.type === "table")
+        .map((item)=>({...item, show: true})).sort((a, b) => a.cat_order - b.cat_order));
     } catch {
       setGamesErrorMessage("Connection error: cannot display games");
     } finally {

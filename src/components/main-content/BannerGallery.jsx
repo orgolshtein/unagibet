@@ -9,6 +9,7 @@ import { AppContext } from "../../state/AppContext";
 import { GalleryDiv, JoinGalleryBtn } from "../../styles/main.content";
 import { Loader, WelcomeBonusOverlay } from "../../styles/global";
 import useSubmit from "../../hooks/useSubmit";
+import { serverUrl } from "../../api/app.api";
 
 export default function BannerGallery () {
   const cta = useSubmit();
@@ -43,7 +44,7 @@ export default function BannerGallery () {
          sliderList?.map((item) => (
               <SwiperSlide key={item.id}>
                 <img 
-                  src={width > 768 ? item.srcbig : item.srcsmall} 
+                  src={width > 768 ? `${serverUrl}/${item.srcbig}` : `${serverUrl}/${item.srcsmall}`} 
                   alt={item.title} onClick={()=>openLoginPopup(setIsGameOverlayDisplayed)} 
                 />
               </SwiperSlide>

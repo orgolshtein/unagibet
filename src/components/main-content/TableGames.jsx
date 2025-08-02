@@ -5,6 +5,7 @@ import { useOncePostMount } from "../../hooks/useOncePostMount";
 import { GameListDiv } from "../../styles/main.content";
 import { Loader } from "../../styles/global";
 import GameThumb from "./GameThumb";
+import { serverUrl } from "../../api/app.api";
 
 export default function TableGames () {
   const { 
@@ -36,7 +37,10 @@ export default function TableGames () {
           <GameThumb 
             key={item.id} 
             selectedgame={item} 
-            image={width > 1024 && (i === 2 || i === 8) ? item.thumbwide : item.thumb} 
+            image={
+              width > 1024 && (i === 2 || i === 8) ? 
+              `${serverUrl}/${item.thumbwide}` : `${serverUrl}/${item.thumb}`
+            } 
             title={item.title} 
             isnew={item.new}
             type={
