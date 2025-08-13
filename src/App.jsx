@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
+
 import MainLayout from "./layouts/MainLayout";
 import InnerLayout from "./layouts/InnerLayout";
+import AdminLayout from "./layouts/AdminLayout";
 import Home from "./components/main-content/Home";
 import NewGames from "./components/main-content/NewGames";
 import SlotGames from "./components/main-content/SlotGames";
@@ -23,7 +25,7 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound/>} />
         </Route>
-        <Route path="/admin" element={<AdminHeader />} />
+        <Route path="/admin" element={<AdminLayout />} />
       </Routes>
   </>
   )

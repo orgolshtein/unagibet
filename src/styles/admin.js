@@ -3,38 +3,39 @@ import { darken } from "polished";
 
 import * as AppColor from "./colors";
 
-export const AdminDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: ${(props)=>(props.$flex_type)};;
-    font-size: 1.3rem;
-    height: 680px;
-    width: 100%;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    scrollbar-gutter: stable;
+export const AdminLoginDiv = styled.div`
+    display: ${(props)=>(props.$display)};
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 550px;
     background-color: ${AppColor.AdminMainBackground};
     color: ${AppColor.AdminMainColor};
+`;
 
-    .loginBox{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .adminHeader{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        background-color: ${AppColor.AdminHeaderColor};
-        width: 100%;
-        height: 7.8rem;
-    }
+export const AdminHeaderDiv = styled.div`
+    display: ${(props)=>(props.$display)};
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: ${AppColor.AdminHeaderColor};
+    width: 100%;
+    height: 4.8rem;
+    color: ${AppColor.ButtonText};
 
     .adminLine{
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         color: ${AppColor.ButtonText};
+
+        p{
+            line-height: 1.5rem;
+        }
+
+        p:first-child{
+            font-weight: bold;
+        }
     }
 `;
 
@@ -89,8 +90,6 @@ export const AdminLoginBtn = styled.button`
         min-width: 6rem;
         font-size: 1rem;
         font-weight: 600;
-        height: 2rem;
-        margin-top: 0.5rem;
     }
 
     &:hover {
