@@ -16,3 +16,6 @@ export const PopupMainBackground = "#000000";
 export const PopupMainText = "#afafaf"
 export const GalleryBackground = "#000000";
 export const GameTitle = "#82794c";
+export const AdminMainBackground = "#eeeeee";
+export const AdminMainColor = "#000000";
+export const AdminHeaderColor = "#1c435b";

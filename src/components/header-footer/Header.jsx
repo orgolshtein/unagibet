@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { AppContext } from "../../state/AppContext";
 import { assetUrl } from "../../api/app.api";
 import * as AppColor from "../../styles/colors";
-import { HeaderDiv, LoginHeaderBtn, JoinHeaderBtn, InputHeader } from "../../styles/header.footer";
+import { HeaderDiv, LoginHeaderBtn, JoinHeaderBtn, InputHeader, AdminLink } from "../../styles/header.footer";
 import { AppLogo, Loader, PasswordVisIcon } from "../../styles/global";
 import useInputBorderToggle from "../../hooks/useInputBorderToggle";
 import usePassIconToggle from "../../hooks/usePassIconToggle";
@@ -31,7 +31,9 @@ export default function Header (){
         setIsForgotPassDisplayed, 
         setIsGameOverlayDisplayed,
         openLoginPopup,
-        openRegBlockPopup
+        openRegBlockPopup,
+        admin,
+        isAdminLoggedIn
     } = useContext(AppContext);
 
     const {
@@ -56,6 +58,12 @@ export default function Header (){
                     alt="Main Logo"
                 />
             </Link>
+            {
+                isAdminLoggedIn?
+                <AdminLink
+                    $display="none"
+                ><Link to="/admin">{admin}</Link></AdminLink>: null
+            }
             <form className="authGrid" onSubmit={handleSubmit(() =>{
                 setIsGameOverlayDisplayed(false);
                 submit.onSubmit();
@@ -128,6 +136,10 @@ export default function Header (){
                 >Join Now</JoinHeaderBtn>
             </form>
             <div className="authResponsive">
+                {
+                    isAdminLoggedIn?
+                    <AdminLink><Link to="/admin">{admin}</Link></AdminLink> : null
+                }
                 <LoginHeaderBtn onClick={() => {
                     openLoginPopup();
                 }}>Login</LoginHeaderBtn>

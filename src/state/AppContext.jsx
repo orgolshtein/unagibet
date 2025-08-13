@@ -22,6 +22,8 @@ const AppProvider = ({children}) =>{
   const [isLoginDisplayed, setIsLoginDisplayed] = useState(false);
   const [isGameOverlayDisplayed, setIsGameOverlayDisplayed] = useState(false);
   const [isToTopDisplayed, setIsToTopDisplayed] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [admin, setAdmin] = useState(undefined);
   const [sliderErrorMessage, setSliderErrorMessage] = useState("");
   const [gamesErrorMessage, setGamesErrorMessage] = useState("");
   
@@ -101,7 +103,29 @@ const AppProvider = ({children}) =>{
     setNewGamesList(filter(newGamesList));
     setSlotsGamesList(filter(slotsGamesList));
     setTableGamesList(filter(tableGamesList));
-};
+  };
+
+  const adminLogin = async (username, password) => {
+    try {
+      const logged = await api.adminLogin(username, password);
+      logged?
+      setIsAdminLoggedIn(true):
+      window.alert("Invalid login details");
+      logged? setAdmin(logged.name):setAdmin(undefined)
+    } catch (err){
+      console.log(err)
+      window.alert("Invalid login details")
+    }
+  };
+
+  const adminLogout = async () => {
+    try {
+      setIsAdminLoggedIn(false)
+      setAdmin(undefined)
+    } catch {
+      window.alert("Something went wrong")
+    }
+  };
 
   const state = {
     width,
@@ -118,6 +142,8 @@ const AppProvider = ({children}) =>{
     isLoginDisplayed,
     isGameOverlayDisplayed,
     isToTopDisplayed,
+    admin,
+    isAdminLoggedIn,
     sliderErrorMessage,
     gamesErrorMessage
   };
@@ -140,8 +166,12 @@ const AppProvider = ({children}) =>{
     openLoginPopup,
     setIsGameOverlayDisplayed,
     setIsToTopDisplayed,
+    setAdmin,
+    setIsAdminLoggedIn,
     setSliderErrorMessage,
-    setGamesErrorMessage
+    setGamesErrorMessage,
+    adminLogin,
+    adminLogout
   };
   
   return <Provider value={{ ...state, ...actions }}>{children}</Provider>;

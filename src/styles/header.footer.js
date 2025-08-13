@@ -256,3 +256,26 @@ export const FooterDiv = styled.div`
         }
     }
 `;
+
+export const AdminLink = styled.span`
+     @media only screen and (max-width: 1024px) {
+            display: ${(props)=>(props.$display)};
+        }
+    a {
+        font-weight: 550;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color .15s ease-out;
+        color: ${AppColor.MainText};
+        position: absolute;
+
+        @media only screen and (max-width: 1024px) {
+            position: relative;
+        }
+        
+        &:hover {
+            color: ${darken(0.2, AppColor.MainText)};
+        }
+    }
+    
+`

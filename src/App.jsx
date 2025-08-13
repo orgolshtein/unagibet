@@ -6,6 +6,7 @@ import NewGames from "./components/main-content/NewGames";
 import SlotGames from "./components/main-content/SlotGames";
 import TableGames from "./components/main-content/TableGames";
 import NotFound from "./components/main-content/NotFound";
+import AdminHeader from "./components/admin/AdminHeader";
 
 function App() {
   
@@ -22,6 +23,7 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound/>} />
         </Route>
+        <Route path="/admin" element={<AdminHeader />} />
       </Routes>
   </>
   )

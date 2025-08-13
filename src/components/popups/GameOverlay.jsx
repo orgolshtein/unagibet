@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { AppContext } from "../../state/AppContext";
-import { assetUrl } from "../../api/app.api";
+import { assetUrl, serverUrl } from "../../api/app.api";
 import { GameOverlayDiv, PopupCtaBtn, PopupCloseBtn } from "../../styles/popups";
 import { GameImg } from "../../styles/global";
 import * as AppColor from "../../styles/colors";
@@ -21,7 +21,7 @@ export default function GameOverlay () {
                     $url={`${assetUrl}/icons/cross_white_icon.svg`} />
                 <h1>{selectedGame.title}</h1>
                 <GameImg 
-                    src={selectedGame.thumb} 
+                    src={`${serverUrl}/${selectedGame.thumb}`} 
                     $display_412px_height="none" 
                     height="260" 
                     width="260" 

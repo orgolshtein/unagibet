@@ -13,3 +13,40 @@ export async function fetchData(type) {
   const slider_data = await (await fetch(`${serverUrl}/crud/get-${type}-data`)).json();
   return slider_data;
 };
+
+export async function updateSlider(data) {
+  const url = `${serverUrl}/crud/update-slider-data`;
+  const options = {
+    method: "POST",
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify({
+      slider_data: data
+    })
+  };
+  return await (await fetch(url, options)).json();
+};
+
+export async function updateGames(data) {
+  const url = `${serverUrl}/crud/update-games-data`;
+  const options = {
+    method: "POST",
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify({
+      games_data: data
+    })
+  };
+  return await (await fetch(url, options)).json();
+};
+
+export async function adminLogin(username, password) {
+  const url = `${serverUrl}/admin/admin-login`;
+  const options = {
+    method: "POST",
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify({
+      username: username,
+      password: password
+    })
+  };
+  return await (await fetch(url, options)).json();
+};
