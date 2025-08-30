@@ -48,5 +48,5 @@ export async function adminLogin(username, password) {
       password: password
     })
   };
-  return await (await fetch(url, options)).json();
+  return await (await fetch(url, options)).json()/* : null */;
 };

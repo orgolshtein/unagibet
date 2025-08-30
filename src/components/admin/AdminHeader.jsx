@@ -2,8 +2,9 @@ import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { AppContext } from "../../state/AppContext";
-import { AdminHeaderDiv, AdminLoginBtn, InputAdmin } from "../../styles/admin";
+import { AdminHeaderDiv, AdminLoginBtn } from "../../styles/admin";
 import { AppLogo } from "../../styles/global";
+import { useForm } from "react-hook-form";
 
 export default function AdminHeader () {
     const {
@@ -11,6 +12,15 @@ export default function AdminHeader () {
         admin,
         adminLogout
     } = useContext(AppContext);
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        setFocus,
+        clearErrors,
+        formState: { errors }
+    } = useForm();
 
     return (
     <AdminHeaderDiv
@@ -29,12 +39,14 @@ export default function AdminHeader () {
             />
         </Link>
         <div className="adminLine"><p>Hello, {admin}!</p><p>Welcome to UnagiBet Admin</p></div>
-        <AdminLoginBtn 
-            $margin="1rem"
-            onClick={() => {
-                adminLogout()
-            }}>Log Out
-        </AdminLoginBtn>
+        <form onSubmit={handleSubmit(() =>{
+            adminLogout()
+        })}>
+            <AdminLoginBtn 
+                $margin="1rem"
+            >Log Out
+            </AdminLoginBtn>
+        </form>
     </AdminHeaderDiv>
     );
 };

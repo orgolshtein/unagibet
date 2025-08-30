@@ -11,6 +11,7 @@ export const InputBorder = "#7081ae";
 export const InputErrorBorder = "#e25757";
 export const InputText = "#353535";
 export const InputBackground = "#bbbbbb";
+export const AdminLoginInputBackground = "#ffffff";
 export const DisbledInputBackground = "#7081ae";
 export const PopupMainBackground = "#000000";
 export const PopupMainText = "#afafaf"

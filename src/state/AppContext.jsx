@@ -26,6 +26,7 @@ const AppProvider = ({children}) =>{
   const [admin, setAdmin] = useState(undefined);
   const [sliderErrorMessage, setSliderErrorMessage] = useState("");
   const [gamesErrorMessage, setGamesErrorMessage] = useState("");
+  const [adminLoginMessage, setAdminLoginMessage] = useState("");
   
   useOncePostMount(()=>{
     window.addEventListener("resize", () => setWidth(window.innerWidth));
@@ -108,13 +109,17 @@ const AppProvider = ({children}) =>{
   const adminLogin = async (username, password) => {
     try {
       const logged = await api.adminLogin(username, password);
-      logged?
-      setIsAdminLoggedIn(true):
-      window.alert("Invalid login details");
-      logged? setAdmin(logged.name):setAdmin(undefined)
+      if (logged){
+        setIsAdminLoggedIn(true)
+        setAdmin(logged.name)
+        setAdminLoginMessage("Logged in successfully... \nSay it! Say we are Unagi")
+        return true;
+      } else{
+        setAdmin(undefined);
+        return false;
+      }
     } catch (err){
       console.log(err)
-      window.alert("Invalid login details")
     }
   };
 
@@ -122,8 +127,9 @@ const AppProvider = ({children}) =>{
     try {
       setIsAdminLoggedIn(false)
       setAdmin(undefined)
-    } catch {
-      window.alert("Something went wrong")
+      setAdminLoginMessage("Logged out \nMaybe next time, we can attack them together...")
+    } catch (err){
+      console.log(err)
     }
   };
 
@@ -145,7 +151,8 @@ const AppProvider = ({children}) =>{
     admin,
     isAdminLoggedIn,
     sliderErrorMessage,
-    gamesErrorMessage
+    gamesErrorMessage,
+    adminLoginMessage
   };
   
   const actions = {
@@ -170,6 +177,7 @@ const AppProvider = ({children}) =>{
     setIsAdminLoggedIn,
     setSliderErrorMessage,
     setGamesErrorMessage,
+    setAdminLoginMessage,
     adminLogin,
     adminLogout
   };
