@@ -8,7 +8,7 @@ export const AdminLoginDiv = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 550px;
+    height: 610px;
     background-color: ${AppColor.AdminMainBackground};
     color: ${AppColor.AdminMainColor};
 `;

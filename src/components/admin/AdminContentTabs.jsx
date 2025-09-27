@@ -5,18 +5,21 @@ import { AppContext } from "../../state/AppContext";
 
 export default function AdminContentTabs () {
     const {
-        isAdminLoggedIn
+        isAdminLoggedIn,
+        loadAdminContentList
     } = useContext(AppContext);
 
     return (
-        <ContentTabsUl
-            $display={isAdminLoggedIn? "flex" : "none"}
-        >
-            <li>Banner Gallery</li>
-            <li>HP Games</li>
-            <li>New Games</li>
-            <li>Slot Games</li>
-            <li>Table Games</li>
-        </ContentTabsUl>
+        <>{isAdminLoggedIn?
+            <ContentTabsUl
+                $display={isAdminLoggedIn? "flex" : "none"}
+            >
+                <li onClick={()=>loadAdminContentList("banners")}>Banner Gallery</li>
+                <li onClick={()=>loadAdminContentList("home")}>HP Games</li>
+                <li onClick={()=>loadAdminContentList("new")}>New Games</li>
+                <li onClick={()=>loadAdminContentList("slots")}>Slot Games</li>
+                <li onClick={()=>loadAdminContentList("table")}>Table Games</li>
+            </ContentTabsUl> : null
+        }</>
     )
 };

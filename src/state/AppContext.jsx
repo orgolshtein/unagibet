@@ -17,6 +17,7 @@ const AppProvider = ({children}) =>{
   const [selectedGame, setSelectedGame] = useState({});
   const [isSliderLoading, setIsSliderLoading] = useState(true);
   const [areGamesLoading, setAreGamesLoading] = useState(true);
+  const [isAdminContentLoading, setIsAdminContentLoading] = useState(true);
   const [isForgotPassDisplayed, setIsForgotPassDisplayed] = useState(false);
   const [isRegBlockDisplayed, setIsRegBlockDisplayed] = useState(false);
   const [isLoginDisplayed, setIsLoginDisplayed] = useState(false);
@@ -24,15 +25,18 @@ const AppProvider = ({children}) =>{
   const [isToTopDisplayed, setIsToTopDisplayed] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [admin, setAdmin] = useState(undefined);
+  const [adminContentList, setAdminContentList] = useState(undefined);
   const [sliderErrorMessage, setSliderErrorMessage] = useState("");
   const [gamesErrorMessage, setGamesErrorMessage] = useState("");
   const [adminLoginMessage, setAdminLoginMessage] = useState("");
+  const [adminContentErrorMessage, setAdminContentErrorMessage] = useState("");
   
   useOncePostMount(()=>{
     window.addEventListener("resize", () => setWidth(window.innerWidth));
     api.riseAndShine();
     loadBanners();
     loadGames();
+    loadAdminContentList("banners");
   });
 
   useEffect(() => {
@@ -70,6 +74,40 @@ const AppProvider = ({children}) =>{
       setGamesErrorMessage("Connection error: cannot display games");
     } finally {
       setAreGamesLoading(false);
+    }
+  };
+
+  const loadAdminContentList = async (tab) => {
+    try {
+      const game_data = await api.fetchData("games");
+      const slider_data = await api.fetchData("slider");
+      switch (tab) {
+        case "banners":
+          setAdminContentList(slider_data.sort((a, b) => a.order - b.order));
+          break;
+        case "home":
+          setAdminContentList(game_data.map((item)=>({...item, show: true}))
+          .sort((a, b) => a.order - b.order));
+          break;
+        case "new":
+          setAdminContentList(game_data.filter((item) => item.new === true)
+          .map((item)=>({...item, show: true})).sort((a, b) => a.new_order - b.new_order));
+          break;
+        case "slots":
+          setAdminContentList(game_data.filter((item) => item.type === "slot")
+          .map((item)=>({...item, show: true})).sort((a, b) => a.cat_order - b.cat_order));
+          break;
+        case "table":
+          setAdminContentList(game_data.filter((item) => item.type === "table")
+          .map((item)=>({...item, show: true})).sort((a, b) => a.cat_order - b.cat_order));
+          break;
+        default:
+          break;
+      }
+    } catch {
+      setAdminContentErrorMessage("Connection error: cannot display content");
+    } finally {
+      setIsAdminContentLoading(false);
     }
   };
 
@@ -138,6 +176,7 @@ const AppProvider = ({children}) =>{
     isSliderLoading,
     sliderList,
     areGamesLoading,
+    isAdminContentLoading,
     gamesList,
     newGamesList,
     slotsGamesList,
@@ -149,16 +188,19 @@ const AppProvider = ({children}) =>{
     isGameOverlayDisplayed,
     isToTopDisplayed,
     admin,
+    adminContentList,
     isAdminLoggedIn,
     sliderErrorMessage,
     gamesErrorMessage,
-    adminLoginMessage
+    adminLoginMessage,
+    adminContentErrorMessage
   };
   
   const actions = {
     setIsSliderLoading,
     setSliderList,
     setAreGamesLoading,
+    setIsAdminContentLoading,
     setGamesList,
     setNewGamesList,
     setSlotsGamesList,
@@ -174,10 +216,13 @@ const AppProvider = ({children}) =>{
     setIsGameOverlayDisplayed,
     setIsToTopDisplayed,
     setAdmin,
+    setAdminContentList,
     setIsAdminLoggedIn,
+    loadAdminContentList,
     setSliderErrorMessage,
     setGamesErrorMessage,
     setAdminLoginMessage,
+    setAdminContentErrorMessage,
     adminLogin,
     adminLogout
   };
