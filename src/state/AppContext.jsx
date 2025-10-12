@@ -25,7 +25,9 @@ const AppProvider = ({children}) =>{
   const [isToTopDisplayed, setIsToTopDisplayed] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [admin, setAdmin] = useState(undefined);
+  const [adminContentTab, setAdminContentTab] = useState("");
   const [adminContentList, setAdminContentList] = useState(undefined);
+  const [adminContentListOrderProp, setAdminContentListOrderProp] = useState("")
   const [sliderErrorMessage, setSliderErrorMessage] = useState("");
   const [gamesErrorMessage, setGamesErrorMessage] = useState("");
   const [adminLoginMessage, setAdminLoginMessage] = useState("");
@@ -81,23 +83,29 @@ const AppProvider = ({children}) =>{
     try {
       const game_data = await api.fetchData("games");
       const slider_data = await api.fetchData("slider");
+      setAdminContentTab(tab)
       switch (tab) {
         case "banners":
+          setAdminContentListOrderProp("order");
           setAdminContentList(slider_data.sort((a, b) => a.order - b.order));
           break;
         case "home":
+          setAdminContentListOrderProp("order");
           setAdminContentList(game_data.map((item)=>({...item, show: true}))
           .sort((a, b) => a.order - b.order));
           break;
         case "new":
+          setAdminContentListOrderProp("new_order");
           setAdminContentList(game_data.filter((item) => item.new === true)
           .map((item)=>({...item, show: true})).sort((a, b) => a.new_order - b.new_order));
           break;
         case "slots":
+          setAdminContentListOrderProp("cat_order");
           setAdminContentList(game_data.filter((item) => item.type === "slot")
           .map((item)=>({...item, show: true})).sort((a, b) => a.cat_order - b.cat_order));
           break;
         case "table":
+          setAdminContentListOrderProp("cat_order");
           setAdminContentList(game_data.filter((item) => item.type === "table")
           .map((item)=>({...item, show: true})).sort((a, b) => a.cat_order - b.cat_order));
           break;
@@ -188,7 +196,9 @@ const AppProvider = ({children}) =>{
     isGameOverlayDisplayed,
     isToTopDisplayed,
     admin,
+    adminContentTab,
     adminContentList,
+    adminContentListOrderProp,
     isAdminLoggedIn,
     sliderErrorMessage,
     gamesErrorMessage,

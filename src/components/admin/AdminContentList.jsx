@@ -4,11 +4,14 @@ import { AppContext } from "../../state/AppContext";
 import { Loader } from "../../styles/global";
 import { ContentListContainerDiv, ContentListTable } from "../../styles/admin";
 import useCapitalized from "../../hooks/useCapitalized";
+import { serverUrl } from "../../api/app.api";
 
 export default function AdminContentList () {
     const { 
         isAdminLoggedIn,
+        adminContentTab,
         adminContentList,
+        adminContentListOrderProp,
         adminContentErrorMessage, 
         isAdminContentLoading
     } = useContext(AppContext);
@@ -28,22 +31,34 @@ export default function AdminContentList () {
                 <ContentListTable>
                     <thead>
                         <tr align="left">
-                            <th style={{width: "15%"}}>
+                            <th style={{width: "18rem"}}>
                                 Title
                             </th>
-                            <th style={{width: "37%"}}>
+                            {
+                            adminContentTab !== "banners" ?
+                            <th style={{width: "auto"}}>
                                 Description
-                            </th >
-                            <th style={{width: "12%"}} align="center">
+                            </th>: null
+                            }
+                            {
+                            adminContentTab === "home" || adminContentTab === "new" ?
+                            <th style={{width: "6rem"}} align="center">
                                 Type
-                            </th>
-                            <th style={{width: "12%"}} align="center">
+                            </th> : null
+                            }
+                            {
+                            adminContentTab !== "new" && adminContentTab !== "banners" ?
+                            <th style={{width: "6rem"}} align="center">
                                 New
+                            </th>: null
+                            }
+                            <th style={{width: "auto"}} align="center">
+                                Image
                             </th>
-                            <th style={{width: "12%"}} align="center">
+                            <th style={{width: "10rem"}} align="center">
                                 Order <span style={{margin: "10px"}}></span> <button type="button">Save</button>
                             </th>
-                            <th style={{width: "12%"}} align="center">
+                            <th style={{width: "10rem"}} align="center">
                                 <button 
                                     type="button" 
                                     id="add-button"
@@ -51,13 +66,34 @@ export default function AdminContentList () {
                             </th>
                         </tr>
                     </thead>
-                    {adminContentList?.map((item, i) => (
+                    {adminContentList?.map((item) => (
                         <tr key={item.id}>
                             <td>{item.title}</td>
-                            <td>{item.description? item.description : ""}</td>
-                            <td align="center">{item.type? useCapitalized(item.type) : ""}</td>
-                            <td align="center">{item.new? "Yes" : "No"}</td>
-                            <td align="center">{item.order}</td>
+                            {
+                            adminContentTab !== "banners" ?
+                            <td>{item.description}</td>: null
+                            }
+                            {
+                            adminContentTab === "home" || adminContentTab === "new" ?
+                            <td align="center">{useCapitalized(item.type)}</td>: null
+                            }
+                            {
+                            adminContentTab !== "new" && adminContentTab !== "banners" ?
+                            <td align="center">{item.new? "Yes" : "No"}</td>: null
+                            }
+                            {
+                            adminContentTab === "banners" ?
+                            <td align="center">
+                                <img src={`${serverUrl}/${item.srcbig}`} width={"450rem"}/>
+                            </td>
+                            : <td align="center">
+                                <img src={`${serverUrl}/${item.thumb}`} width={"80rem"}/>
+                            </td>
+                            }
+                            <td align="center">{item[adminContentListOrderProp]}
+                                <span style={{margin: "10px"}}></span>
+                                <input style={{width: "2rem", height: "2rem"}}/>
+                            </td>
                             <td align="center">
                                 <button type="button">Edit</button>  <button type="button">Delete</button>
                             </td>
