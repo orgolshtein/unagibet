@@ -24,6 +24,8 @@ const AppProvider = ({children}) =>{
   const [isGameOverlayDisplayed, setIsGameOverlayDisplayed] = useState(false);
   const [isToTopDisplayed, setIsToTopDisplayed] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isAdminConfirmPopup, setIsAdminConfirmPopup] = useState(false);
+  const [isAdminConfirmAlertOnly, setIsAdminConfirmAlertOnly] = useState(false);
   const [admin, setAdmin] = useState(undefined);
   const [adminContentTab, setAdminContentTab] = useState("");
   const [adminContentList, setAdminContentList] = useState(undefined);
@@ -32,6 +34,8 @@ const AppProvider = ({children}) =>{
   const [gamesErrorMessage, setGamesErrorMessage] = useState("");
   const [adminLoginMessage, setAdminLoginMessage] = useState("");
   const [adminContentErrorMessage, setAdminContentErrorMessage] = useState("");
+  const [adminConfirmPopupMsg, setAdminConfirmPopupMsg] = useState("");
+  const [adminConfirmPopupSuccessMsg, setAdminConfirmPopupSuccessMsg] = useState("");
   
   useOncePostMount(()=>{
     window.addEventListener("resize", () => setWidth(window.innerWidth));
@@ -179,7 +183,13 @@ const AppProvider = ({children}) =>{
     }
   };
 
-  const state = {
+  const displayConfirmPopup = (msg, alert) => {
+    setIsAdminConfirmPopup(true);
+    setAdminConfirmPopupMsg(msg)
+    alert? setIsAdminConfirmAlertOnly(true): setIsAdminConfirmAlertOnly(false)
+  };
+
+ const state = {
     width,
     isSliderLoading,
     sliderList,
@@ -200,10 +210,14 @@ const AppProvider = ({children}) =>{
     adminContentList,
     adminContentListOrderProp,
     isAdminLoggedIn,
+    isAdminConfirmPopup,
+    isAdminConfirmAlertOnly,
     sliderErrorMessage,
     gamesErrorMessage,
     adminLoginMessage,
-    adminContentErrorMessage
+    adminContentErrorMessage,
+    adminConfirmPopupMsg,
+    adminConfirmPopupSuccessMsg
   };
   
   const actions = {
@@ -228,13 +242,18 @@ const AppProvider = ({children}) =>{
     setAdmin,
     setAdminContentList,
     setIsAdminLoggedIn,
+    setIsAdminConfirmPopup,
+    setIsAdminConfirmAlertOnly,
     loadAdminContentList,
     setSliderErrorMessage,
     setGamesErrorMessage,
     setAdminLoginMessage,
     setAdminContentErrorMessage,
     adminLogin,
-    adminLogout
+    adminLogout,
+    setAdminConfirmPopupMsg,
+    setAdminConfirmPopupSuccessMsg,
+    displayConfirmPopup
   };
   
   return <Provider value={{ ...state, ...actions }}>{children}</Provider>;

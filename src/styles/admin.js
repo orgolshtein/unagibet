@@ -140,6 +140,26 @@ export const AdminLoginBtn = styled.button`
     }
 `;
 
+export const AdminBtn = styled.button`
+    background-color: ${AppColor.AdminButtonColor};
+    border: 1px solid ${AppColor.AdminButtonBorder};
+    color: ${AppColor.AdminButtonText};
+    border-radius: 2px;
+    padding: 3px 6px 3px 6px;
+    font-size: ${AppColor.AdminTableFont};
+    width: auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    transition: background-color .15s ease-out;
+    transition: color .15s ease-out;
+    
+    &:hover {
+        background-color: ${AppColor.AdminButtonHoverColor};
+        color: ${AppColor.AdminButtonHoverText};
+    }
+`;
+
 export const ContentTabsUl = styled.ul`
     display: ${(props)=>(props.$display)};
     flex-direction: row;
@@ -200,24 +220,53 @@ export const ContentListTable = styled.table`
         z-index: 4;
         background-color: ${AppColor.AdminTableBackground};
     }
+`;
 
-    button {
-        background-color: ${AppColor.AdminButtonColor};
-        border: 1px solid ${AppColor.AdminButtonBorder};
-        color: ${AppColor.AdminButtonText};
-        border-radius: 2px;
-        padding: 3px 6px 3px 6px;
-        font-size: ${AppColor.AdminTableFont};
-        width: auto;
-        margin-top: 2px;
-        margin-bottom: 2px;
-        cursor: pointer;
-        transition: background-color .15s ease-out;
-        transition: color .15s ease-out;
-        
-        &:hover {
-            background-color: ${AppColor.AdminButtonHoverColor};
-            color: ${AppColor.AdminButtonHoverText};
-        }
+export const ConfirmPopupContainer = styled.div`
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    -webkit-backdrop-filter: blur(15px) brightness(20%);
+    backdrop-filter: blur(15px) brightness(20%);
+`;
+
+export const ConfirmPopupDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: fixed;
+    padding: 1px;
+    padding-top: 15px;
+    top: 30%;
+    left: 40%;
+    min-width: 15%;
+    min-height: 115px; 
+    background-color: ${AppColor.AdminTableBackground};
+    border: 1px ${AppColor.AdminMainBorder} solid;
+    border-radius: 3px;
+    box-shadow: ${AppColor.AdminMainBorder} 0px 0px 15px 0px;
+    z-index: 10;
+
+    .alert-text {
+        text-align: center;
+    }
+
+    .alert-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .alert-button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
     }
 `;

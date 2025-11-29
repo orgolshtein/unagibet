@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { AppContext } from "../../state/AppContext";
 import { Loader } from "../../styles/global";
-import { ContentListContainerDiv, ContentListTable } from "../../styles/admin";
+import { AdminBtn, ContentListContainerDiv, ContentListTable } from "../../styles/admin";
 import useCapitalized from "../../hooks/useCapitalized";
 import { serverUrl } from "../../api/app.api";
 
@@ -10,11 +10,18 @@ export default function AdminContentList () {
     const { 
         isAdminLoggedIn,
         adminContentTab,
+        loadAdminContentList,
         adminContentList,
         adminContentListOrderProp,
         adminContentErrorMessage, 
-        isAdminContentLoading
+        isAdminContentLoading,
+        displayConfirmPopup,
+        setAdminConfirmPopupSuccessMsg
     } = useContext(AppContext);
+
+    useEffect(() => {
+        loadAdminContentList("banners")
+    }, [])
 
     return(
         <>{isAdminLoggedIn? <ContentListContainerDiv>
@@ -56,16 +63,23 @@ export default function AdminContentList () {
                                 Image
                             </th>
                             <th style={{width: "10rem"}} align="center">
-                                Order <span style={{margin: "10px"}}></span> <button type="button">Save</button>
+                                Order <span style={{margin: "10px"}}></span> <AdminBtn
+                                        type="button"
+                                        onClick={()=>{
+                                            displayConfirmPopup("Save Changes?");
+                                            setAdminConfirmPopupSuccessMsg("Successfully Saved!")
+                                        }}
+                                    >Save</AdminBtn>
                             </th>
                             <th style={{width: "10rem"}} align="center">
-                                <button 
+                                <AdminBtn 
                                     type="button" 
                                     id="add-button"
-                                >+</button>
+                                >+</AdminBtn>
                             </th>
                         </tr>
                     </thead>
+                    <tbody>
                     {adminContentList?.map((item) => (
                         <tr key={item.id}>
                             <td>{item.title}</td>
@@ -92,13 +106,20 @@ export default function AdminContentList () {
                             }
                             <td align="center">{item[adminContentListOrderProp]}
                                 <span style={{margin: "10px"}}></span>
-                                <input style={{width: "2rem", height: "2rem"}}/>
+                                <input style={{width: "3rem", height: "2rem", paddingLeft: ".5rem"}}/>
                             </td>
                             <td align="center">
-                                <button type="button">Edit</button>  <button type="button">Delete</button>
+                                <AdminBtn type="button">Edit</AdminBtn>  <AdminBtn 
+                                    type="button"
+                                    onClick={()=>{
+                                        displayConfirmPopup("Delete Entry?");
+                                        setAdminConfirmPopupSuccessMsg("Successfully Deleted!")
+                                    }}
+                                >Delete</AdminBtn>
                             </td>
                         </tr>
                     ))}
+                    </tbody>
                 </ContentListTable>
             }
         </ContentListContainerDiv>: null
