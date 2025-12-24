@@ -270,3 +270,81 @@ export const ConfirmPopupDiv = styled.div`
         justify-content: center;
     }
 `;
+
+export const MainFormContainer = styled.div`
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+    -webkit-backdrop-filter: blur(15px) brightness(20%);
+    backdrop-filter: blur(15px) brightness(20%);
+`;
+
+export const MainFormDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    width: 60%;
+    height: 85%;
+    justify-content: center;
+    align-items: space-evenly;
+    top: 10%;
+    left: 20%;
+    padding: 5rem;
+    background-color: ${AppColor.AdminTableBackground};
+    border: ${AppColor.AdminMainBorder} solid;
+    border-radius: 3px;
+    box-shadow: ${AppColor.AdminMainBorder} 0px 0px 15px 0px;
+    z-index: 9;
+
+    legend {
+        font-weight: bold;
+        font-size: 25px;
+        position: relative;
+    }
+
+    .form-inputs {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        gap: 6rem;
+        border: none;
+        display:flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: space-evenly;
+        justify-content: center;
+        align-items: center;
+
+        div{
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    }
+
+    .form-buttons {
+        border: none;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: space-evenly;
+        position: absolute;
+        top: 88%;
+        left: 70%;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 5%;
+        left: 95%;
+        width: 22px;
+        height: 22px;
+    }
+`;

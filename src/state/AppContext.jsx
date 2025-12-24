@@ -23,12 +23,15 @@ const AppProvider = ({children}) =>{
   const [isLoginDisplayed, setIsLoginDisplayed] = useState(false);
   const [isGameOverlayDisplayed, setIsGameOverlayDisplayed] = useState(false);
   const [isToTopDisplayed, setIsToTopDisplayed] = useState(false);
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(true);//CODEMARK=== True just for test
+  const [isAdminMainForm, setIsAdminMainForm] = useState(false);
   const [isAdminConfirmPopup, setIsAdminConfirmPopup] = useState(false);
   const [isAdminConfirmAlertOnly, setIsAdminConfirmAlertOnly] = useState(false);
-  const [admin, setAdmin] = useState(undefined);
+  const [admin, setAdmin] = useState("Test");//CODEMARK=== Just for test
   const [adminContentTab, setAdminContentTab] = useState("");
+  const [adminSelectedObject, setAdminSelectedObject] = useState(undefined);
   const [adminContentList, setAdminContentList] = useState(undefined);
+  const [mainFormContent, setMainFormContent] = useState({});
   const [adminContentListOrderProp, setAdminContentListOrderProp] = useState("")
   const [sliderErrorMessage, setSliderErrorMessage] = useState("");
   const [gamesErrorMessage, setGamesErrorMessage] = useState("");
@@ -207,11 +210,14 @@ const AppProvider = ({children}) =>{
     isToTopDisplayed,
     admin,
     adminContentTab,
+    adminSelectedObject,
     adminContentList,
     adminContentListOrderProp,
     isAdminLoggedIn,
+    isAdminMainForm,
     isAdminConfirmPopup,
     isAdminConfirmAlertOnly,
+    mainFormContent,
     sliderErrorMessage,
     gamesErrorMessage,
     adminLoginMessage,
@@ -240,11 +246,14 @@ const AppProvider = ({children}) =>{
     setIsGameOverlayDisplayed,
     setIsToTopDisplayed,
     setAdmin,
+    setAdminSelectedObject,
     setAdminContentList,
     setIsAdminLoggedIn,
+    setIsAdminMainForm,
     setIsAdminConfirmPopup,
     setIsAdminConfirmAlertOnly,
     loadAdminContentList,
+    setMainFormContent,
     setSliderErrorMessage,
     setGamesErrorMessage,
     setAdminLoginMessage,

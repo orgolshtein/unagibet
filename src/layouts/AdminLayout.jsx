@@ -6,6 +6,7 @@ import AdminContentTabs from "../components/admin/AdminContentTabs";
 import AdminContentList from "../components/admin/AdminContentList";
 import GlobalAdminStyle from "../styles/global.admin";
 import AdminConfirmPopup from "../components/admin/AdminConfirmPopup";
+import AdminMainForm from "../components/admin/AdminMainForm";
 
 const AdminLayout = () => (
     <>
@@ -14,6 +15,7 @@ const AdminLayout = () => (
         <AdminHeader />
         <AdminContentTabs />
         <AdminContentList />
+        <AdminMainForm/>
         <AdminConfirmPopup />
     </>
 );

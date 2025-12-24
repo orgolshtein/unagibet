@@ -16,7 +16,10 @@ export default function AdminContentList () {
         adminContentErrorMessage, 
         isAdminContentLoading,
         displayConfirmPopup,
-        setAdminConfirmPopupSuccessMsg
+        setAdminConfirmPopupSuccessMsg,
+        setAdminSelectedObject,
+        setIsAdminMainForm,
+        setMainFormContent
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -75,6 +78,19 @@ export default function AdminContentList () {
                                 <AdminBtn 
                                     type="button" 
                                     id="add-button"
+                                    onClick={()=> {
+                                            setIsAdminMainForm(true)
+                                            setAdminSelectedObject(undefined)
+                                            setMainFormContent([
+                                                adminContentTab === "banners"? "New Banner" : "New Game",
+                                                "Title",
+                                                adminContentTab === "banners"? null: "Description",
+                                                adminContentTab === "banners"? null: "Type",
+                                                adminContentTab === "banners"? null: "New",
+                                                adminContentTab === "banners"? "srcbig": "thumb",
+                                                adminContentTab === "banners"? "srcsmall": "thumbwide"
+                                            ])
+                                        }}
                                 >+</AdminBtn>
                             </th>
                         </tr>
@@ -104,12 +120,29 @@ export default function AdminContentList () {
                                 <img src={`${serverUrl}/${item.thumb}`} width={"80rem"}/>
                             </td>
                             }
-                            <td align="center">{item[adminContentListOrderProp]}
-                                <span style={{margin: "10px"}}></span>
-                                <input style={{width: "3rem", height: "2rem", paddingLeft: ".5rem"}}/>
+                            <td align="center">
+                                <input 
+                                    style={{width: "3rem", height: "2rem", paddingLeft: ".5rem"}}
+                                    placeholder={item[adminContentListOrderProp]}
+                                />
                             </td>
                             <td align="center">
-                                <AdminBtn type="button">Edit</AdminBtn>  <AdminBtn 
+                                <AdminBtn 
+                                    type="button"
+                                    onClick={()=>{
+                                        setIsAdminMainForm(true)
+                                        setAdminSelectedObject(item)
+                                        setMainFormContent([
+                                            adminContentTab === "banners"? "Update Banner" : "Update Game",
+                                            "Title",
+                                            adminContentTab === "banners"? null: "Description",
+                                            adminContentTab === "banners"? null: "Type",
+                                            adminContentTab === "banners"? null: "New",
+                                            adminContentTab === "banners"? "srcbig": "thumb",
+                                            adminContentTab === "banners"? "srcsmall": "thumbwide"
+                                        ])
+                                    }}
+                                >Edit</AdminBtn>  <AdminBtn 
                                     type="button"
                                     onClick={()=>{
                                         displayConfirmPopup("Delete Entry?");
