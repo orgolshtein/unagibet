@@ -1,18 +1,35 @@
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { AppContext } from "../../state/AppContext";
-import { AdminHeaderDiv, AdminLoginBtn } from "../../styles/admin";
+import { AdminDesignToggle, AdminHeaderDiv, AdminLoginBtn } from "../../styles/admin";
 import { AppLogo } from "../../styles/global";
 import { useForm } from "react-hook-form";
+import { useOncePostMount } from "../../hooks/useOncePostMount";
 
 export default function AdminHeader () {
     const {
+        isAdminDarkMode,
+        toggleDarkMode,
         isAdminLoggedIn,
         admin,
         adminLogout
     } = useContext(AppContext);
 
+    const adminHeaderDesignToggleRef = useRef();
+    
+    useOncePostMount(() => {
+        isAdminDarkMode?
+        adminHeaderDesignToggleRef.current.checked = true
+        : adminHeaderDesignToggleRef.current.checked = false
+    });
+
+    useEffect(()=>{
+        isAdminDarkMode?
+        adminHeaderDesignToggleRef.current.checked = true
+        : adminHeaderDesignToggleRef.current.checked = false
+    },[isAdminDarkMode]);
+    
     const {
         register,
         handleSubmit,
@@ -25,6 +42,7 @@ export default function AdminHeader () {
     return (
     <AdminHeaderDiv
         $display={isAdminLoggedIn? "flex" : "none"}
+        $dark_mode={isAdminDarkMode}
     >
         <Link to="/">
             <AppLogo 
@@ -39,6 +57,10 @@ export default function AdminHeader () {
             />
         </Link>
         <div className="adminLine"><p>Hello, {admin}!</p><p>Welcome to UnagiBet Admin</p></div>
+        <AdminDesignToggle $dark_mode={isAdminDarkMode} onChange={toggleDarkMode}>
+            <input name="design-toggle-adminheader" type="checkbox" ref={adminHeaderDesignToggleRef} />
+            <span className="slider round"></span><br /><br /><br />{isAdminDarkMode?"Dark Mode": "Light Mode"}
+        </AdminDesignToggle>
         <form onSubmit={handleSubmit(() =>{
             adminLogout()
         })}>

@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import * as api from "../api/app.api";
 import { useOncePostMount } from "../hooks/useOncePostMount";
+import * as AppColor from "../styles/colors";
 
 const AppContext = React.createContext();
 const { Provider } = AppContext;
+
+ export let adminBackground;
 
 const AppProvider = ({children}) =>{
   const [width, setWidth] = useState(window.innerWidth);
@@ -23,6 +26,7 @@ const AppProvider = ({children}) =>{
   const [isLoginDisplayed, setIsLoginDisplayed] = useState(false);
   const [isGameOverlayDisplayed, setIsGameOverlayDisplayed] = useState(false);
   const [isToTopDisplayed, setIsToTopDisplayed] = useState(false);
+  const [isAdminDarkMode, setIsAdminDarkMode] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(true);//CODEMARK=== True just for test
   const [isAdminMainForm, setIsAdminMainForm] = useState(false);
   const [isAdminConfirmPopup, setIsAdminConfirmPopup] = useState(false);
@@ -159,6 +163,12 @@ const AppProvider = ({children}) =>{
     setTableGamesList(filter(tableGamesList));
   };
 
+  const toggleDarkMode = () => {
+    isAdminDarkMode ? 
+    setIsAdminDarkMode(false) : 
+    setIsAdminDarkMode(true)
+  }
+
   const adminLogin = async (username, password) => {
     try {
       const logged = await api.adminLogin(username, password);
@@ -213,6 +223,7 @@ const AppProvider = ({children}) =>{
     adminSelectedObject,
     adminContentList,
     adminContentListOrderProp,
+    isAdminDarkMode,
     isAdminLoggedIn,
     isAdminMainForm,
     isAdminConfirmPopup,
@@ -245,9 +256,11 @@ const AppProvider = ({children}) =>{
     openLoginPopup,
     setIsGameOverlayDisplayed,
     setIsToTopDisplayed,
+    toggleDarkMode,
     setAdmin,
     setAdminSelectedObject,
     setAdminContentList,
+    setIsAdminDarkMode,
     setIsAdminLoggedIn,
     setIsAdminMainForm,
     setIsAdminConfirmPopup,

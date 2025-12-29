@@ -5,6 +5,7 @@ import { serverUrl } from "../../api/app.api";
 
 export default function AdminMainForm () {
     const {
+        isAdminDarkMode,
         isAdminLoggedIn,
         isAdminMainForm,
         setIsAdminMainForm,
@@ -14,8 +15,12 @@ export default function AdminMainForm () {
     } = useContext(AppContext)
 
     return(
-        <>{isAdminLoggedIn && isAdminMainForm? <MainFormContainer>
-            <MainFormDiv>
+        <>{isAdminLoggedIn && isAdminMainForm? <MainFormContainer
+            $dark_mode={isAdminDarkMode}
+        >
+            <MainFormDiv
+                $dark_mode={isAdminDarkMode}
+            >
                 <form>
                     <fieldset className="form-inputs">
                         <legend>{mainFormContent[0]}</legend>
@@ -81,7 +86,7 @@ export default function AdminMainForm () {
                                 : adminSelectedObject ? 
                                 <><img src={`${serverUrl}/${adminSelectedObject[mainFormContent[5].toLowerCase()]}`} width={"80rem"}/><br /></>
                                 : ""}
-                                <AdminBtn type="button" className="level2-btn" >New Image</AdminBtn>
+                                <AdminBtn $dark_mode={isAdminDarkMode} type="button" className="level2-btn" >New Image</AdminBtn>
                             </p>
                             <p>{adminContentTab === "banners" ? "Small Image" : "Wide Image"}:</p>
                             <p>
@@ -91,15 +96,15 @@ export default function AdminMainForm () {
                                 : adminSelectedObject ? 
                                 <><img src={`${serverUrl}/${adminSelectedObject[mainFormContent[6].toLowerCase()]}`} width={"80rem"}/><br /></>
                                 : ""}
-                                <AdminBtn type="button" className="level2-btn" >New Image</AdminBtn>
+                                <AdminBtn $dark_mode={isAdminDarkMode} type="button" className="level2-btn" >New Image</AdminBtn>
                             </p>
                         </div>
                     </fieldset>
                     <fieldset className="form-buttons">
-                        <AdminBtn className="level2-btn" type="reset">Reset</AdminBtn>
-                        <AdminBtn className="level2-btn" type="button" id="submit-form">Submit</AdminBtn>
+                        <AdminBtn $dark_mode={isAdminDarkMode} className="level2-btn" type="reset">Reset</AdminBtn>
+                        <AdminBtn $dark_mode={isAdminDarkMode} className="level2-btn" type="button" id="submit-form">Submit</AdminBtn>
                     </fieldset>
-                    <AdminBtn type="button" className="close-button level2-btn" onClick={
+                    <AdminBtn $dark_mode={isAdminDarkMode} type="button" className="close-button level2-btn" onClick={
                         ()=>setIsAdminMainForm(false)
                         }>X</AdminBtn>
                 </form>

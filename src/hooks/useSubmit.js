@@ -1,25 +1,42 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { AppContext } from "../state/AppContext";
-import * as api from "../api/app.api";
+import { useOncePostMount } from "./useOncePostMount";
 
 
-export default function useSubmit(inputBackground, disabledInputBackground, loader, notFound){
+export default function useSubmit(
+    inputBackground,
+    disabledInputBackground,
+    loader,
+    notFound,
+    fromAdmin,
+    darkInputBackground,
+    darkDisabledInputBackground
+  ){
+
+  const {
+    isAdminDarkMode
+  } = useContext(AppContext);
+  
   const [submitErrMsg, setSubmitErrMsg] = useState("");
   const [isInputDisabled, setIsInputDisabled] = useState(false);
-  const [inputBackgroundColor, setInputBackgroundColor] = useState(inputBackground);
+  const [inputBackgroundColor, setInputBackgroundColor] = useState(undefined);
   const [isBtnActive, setIsBtnActive] = useState(false);
   const [isJoinBtnActive, setIsJoinBtnActive] = useState(false);
 
-  const {
-        adminLogin
-    } = useContext(AppContext);
-  
+  useEffect(()=>{
+    isAdminDarkMode && fromAdmin?
+    setInputBackgroundColor(darkInputBackground)
+    : setInputBackgroundColor(inputBackground)
+  }, [isAdminDarkMode]);
+
   const onSubmit = (fn, username, password) => {
     setSubmitErrMsg("");
     setSubmitErrMsg(loader);
     setIsInputDisabled(true);
-    setInputBackgroundColor(disabledInputBackground);
+    isAdminDarkMode && fromAdmin?
+    setInputBackgroundColor(darkDisabledInputBackground)
+    : setInputBackgroundColor(disabledInputBackground);
     setIsBtnActive(true);
     setTimeout(async ()=>{
       if (fn && await fn(username, password)){
@@ -29,7 +46,9 @@ export default function useSubmit(inputBackground, disabledInputBackground, load
         setSubmitErrMsg(notFound);
       } 
       setIsInputDisabled(false);
-      setInputBackgroundColor(inputBackground);
+      isAdminDarkMode && fromAdmin?
+      setInputBackgroundColor(darkInputBackground)
+      : setInputBackgroundColor(inputBackground);
       setIsBtnActive(false);
     }, Math.floor(Math.random() * (5000-1000)+1000));
   };

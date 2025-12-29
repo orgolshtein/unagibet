@@ -1,21 +1,38 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { AppContext } from "../../state/AppContext";
 import * as AppColor from "../../styles/colors";
-import { AdminLoginBtn, AdminLoginDiv, AdminLoginForm, InputAdmin, InputAdminContainer } from "../../styles/admin";
+import { AdminDesignToggle, AdminLoginBtn, AdminLoginDiv, AdminLoginForm, InputAdmin, InputAdminContainer } from "../../styles/admin";
 import { AppLogo, Loader, PasswordVisIcon } from "../../styles/global";
 import useSubmit from "../../hooks/useSubmit";
 import { assetUrl } from "../../api/app.api";
 import usePassIconToggle from "../../hooks/usePassIconToggle";
 import useInputBorderToggle from "../../hooks/useInputBorderToggle";
+import { useOncePostMount } from "../../hooks/useOncePostMount";
 
 export default function AdminLogin () {
     const {
+        isAdminDarkMode,
+        toggleDarkMode,
         adminLogin,
         isAdminLoggedIn
     } = useContext(AppContext);
+
+    const adminLoginDesignToggleRef = useRef();
+
+    useOncePostMount(() => {
+        isAdminDarkMode?
+        adminLoginDesignToggleRef.current.checked = true
+        : adminLoginDesignToggleRef.current.checked = false
+    });
+
+    useEffect(()=>{
+        isAdminDarkMode?
+        adminLoginDesignToggleRef.current.checked = true
+        : adminLoginDesignToggleRef.current.checked = false
+    },[isAdminDarkMode]);
 
     const passIcon = usePassIconToggle(
         `${assetUrl}/icons/password_visible_icon.svg`,
@@ -35,7 +52,10 @@ export default function AdminLogin () {
         AppColor.AdminLoginInputBackground, 
         AppColor.DisbledInputBackground,
         <Loader $size="2rem" />,
-        "Invalid login details. It's not something you are, it's something you HAVE!"
+        "Invalid login details. It's not something you are, it's something you HAVE!",
+        true,
+        AppColor.AdminDarkLoginInputBackground, 
+        AppColor.DarkDisbledInputBackground
     );
 
     const inputBorder = useInputBorderToggle(
@@ -47,7 +67,16 @@ export default function AdminLogin () {
     return (
     <AdminLoginDiv
         $display={isAdminLoggedIn? "none" : "flex"}
+        $dark_mode={isAdminDarkMode}
     >
+        <AdminDesignToggle 
+            $login_screen={true}
+            $dark_mode={isAdminDarkMode}
+            onChange={toggleDarkMode}
+        >
+            <input name="design-toggle-adminlogin" type="checkbox" ref={adminLoginDesignToggleRef}/>
+            <span className="slider round"></span><br /><br /><br />{isAdminDarkMode?"Dark Mode": "Light Mode"}
+        </AdminDesignToggle>
         <Link to="/">
             <AppLogo 
                 $size="15"
@@ -61,14 +90,16 @@ export default function AdminLogin () {
             />
         </Link> 
         <div>Login to UnagiBet Admin</div>
-        <AdminLoginForm onSubmit={handleSubmit(() =>{
+        <AdminLoginForm $dark_mode={isAdminDarkMode} onSubmit={handleSubmit(() =>{
             submit.onSubmit(
                 adminLogin,
                 getValues("username"),
                 getValues("password")
             );
         })}>
-            <InputAdminContainer>
+            <InputAdminContainer
+                $dark_mode={isAdminDarkMode}
+            >
                 <img 
                     className="inputIcon" 
                     src={`${assetUrl}/icons/login_user_icon.svg`} 
@@ -76,6 +107,7 @@ export default function AdminLogin () {
                         setFocus("username");
                 }}/>
                 <InputAdmin 
+                    $dark_mode={isAdminDarkMode}
                     type="text"
                     autoComplete="on"
                     placeholder="Username"
@@ -95,7 +127,9 @@ export default function AdminLogin () {
                 />
             </InputAdminContainer>
             <p>{errors.username?.message}</p>
-            <InputAdminContainer>
+            <InputAdminContainer
+                $dark_mode={isAdminDarkMode}
+            >
                 <img 
                     className="inputIcon" 
                     src={`${assetUrl}/icons/login_password_icon.svg`} 
@@ -103,6 +137,7 @@ export default function AdminLogin () {
                         setFocus("password");
                 }}/>
                 <InputAdmin 
+                    $dark_mode={isAdminDarkMode}
                     type={passIcon.passInputType}
                     autoComplete="on"
                     placeholder="Password"
@@ -131,6 +166,7 @@ export default function AdminLogin () {
             </InputAdminContainer>
             <p>{errors.password?.message}</p>
             <AdminLoginBtn
+                $dark_mode={isAdminDarkMode}
                 $width="20rem" 
                 $margin="1rem"
                 type="submit"

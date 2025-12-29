@@ -6,6 +6,7 @@ import useImpDisableScrollHandler from "../../hooks/useImperativeDisableScroll";
 
 export default function AdminConfirmPopup () {
     const { 
+        isAdminDarkMode,
         adminConfirmPopupMsg,
         isAdminLoggedIn,
         isAdminConfirmPopup, 
@@ -21,7 +22,9 @@ export default function AdminConfirmPopup () {
     <>    
         {isAdminLoggedIn && isAdminConfirmPopup? 
         <ConfirmPopupContainer>
-            <ConfirmPopupDiv>
+            <ConfirmPopupDiv
+                $dark_mode={isAdminDarkMode} 
+            >
             <p className="alert-text">
                 {adminConfirmPopupMsg}
             </p>
@@ -29,16 +32,19 @@ export default function AdminConfirmPopup () {
                 isAdminConfirmAlertOnly ?
                 <div className="alert-button">
                     <AdminBtn 
+                        $dark_mode={isAdminDarkMode}
                         type="button" 
                         onClick={()=>setIsAdminConfirmPopup(false)}
                     >OK</AdminBtn>
                 </div> 
                 : <div className="alert-buttons">
                     <AdminBtn 
+                        $dark_mode={isAdminDarkMode}
                         type="button"
                         onClick={()=>displayConfirmPopup(adminConfirmPopupSuccessMsg, true)}
                     >Yes</AdminBtn>
                     <AdminBtn 
+                        $dark_mode={isAdminDarkMode}
                         type="button"
                         onClick={()=>setIsAdminConfirmPopup(false)}
                     >No</AdminBtn>

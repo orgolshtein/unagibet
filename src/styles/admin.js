@@ -3,6 +3,80 @@ import { darken, lighten } from "polished";
 
 import * as AppColor from "./colors";
 
+export const AdminDesignToggle = styled.label`
+    position: ${(props)=>(
+        props.$login_screen?
+        "absolute"
+        : "relative"
+    )};
+    top: ${(props)=>(
+        props.$login_screen?
+        "10px"
+        : "unset"
+    )};
+    margin-top: 10px;
+    font-size: 10px;
+    display: inline-block;
+    width: 40px;
+    height: 23px;
+
+    input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ffffff;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 17px;
+        width: 17px;
+        left: 4px;
+        bottom: 4px;
+        background-color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkHeaderColor
+            : AppColor.AdminHeaderColor
+        )};
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #000000;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #000000;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(17px);
+        -ms-transform: translateX(17px);
+        transform: translateX(17px);
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+`;
+
 export const AdminLoginDiv = styled.div`
     display: ${(props)=>(props.$display)};
     flex-direction: column;
@@ -10,7 +84,17 @@ export const AdminLoginDiv = styled.div`
     align-items: center;
     height: 720px;
     background-color: ${AppColor.AdminTableBackground};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkTableBackground
+        : AppColor.AdminTableBackground
+    )};
     color: ${AppColor.AdminMainColor};
+    color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainColor
+        : AppColor.AdminMainColor
+    )};
 `;
 
 export const AdminLoginForm = styled.form`
@@ -42,7 +126,11 @@ export const AdminHeaderDiv = styled.div`
     display: ${(props)=>(props.$display)};
     flex-direction: row;
     justify-content: space-evenly;
-    background-color: ${AppColor.AdminHeaderColor};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkHeaderColor
+        : AppColor.AdminHeaderColor
+    )};
     width: 100%;
     height: 4.8rem;
     color: ${AppColor.ButtonText};
@@ -64,14 +152,18 @@ export const AdminHeaderDiv = styled.div`
         p:first-child{
             font-weight: bold;
         }
-    }
+    }    
 `;
 
 export const InputAdminContainer = styled.span`
     display: block;
     position: relative;
     font-size: 1rem;
-    color: ${AppColor.InputText};
+    color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainColor
+        : AppColor.InputText
+    )};
     box-shadow: none;
     height: 2.5em;
     padding: 0 .1rem 0 0.1rem;
@@ -87,7 +179,11 @@ export const InputAdmin = styled.input`
     border-radius: 0.2rem;
     background-color: ${(props)=>(props.$background)};
     font-size: 1rem;
-    color: ${AppColor.InputText};
+    color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainColor :
+        AppColor.InputText
+    )};
     width: 100%;
     padding-left: 2rem;
     padding-right: 2rem;
@@ -103,7 +199,7 @@ export const AdminLoginBtn = styled.button`
     flex-direction: column;
     justify-content: center;
     background-color: ${AppColor.LoginBtn};
-    color: ${AppColor.ButtonText};
+    color: ${AppColor.AdminButtonText};
     min-width: 7.5rem;
     height: 3rem;
     width: ${(props)=>(props.$width)};
@@ -119,12 +215,12 @@ export const AdminLoginBtn = styled.button`
     margin-top: ${(props)=>(props.$margin)};;
 
     &:disabled{
-        color: ${darken(0.3, AppColor.ButtonText)};
+        color: ${darken(0.3, AppColor.AdminButtonText)};
         background-color: ${darken(0.3, AppColor.LoginBtn)};
         cursor: default;
 
         &:hover{
-            color: ${darken(0.3, AppColor.ButtonText)};
+            color: ${darken(0.3, AppColor.AdminButtonText)};
             background-color: ${darken(0.3, AppColor.LoginBtn)};
         }
     }
@@ -141,12 +237,16 @@ export const AdminLoginBtn = styled.button`
 `;
 
 export const AdminBtn = styled.button`
-    background-color: ${AppColor.AdminButtonColor};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkButtonColor
+        : AppColor.AdminButtonColor
+    )};
     border: 1px solid ${AppColor.AdminButtonBorder};
     color: ${AppColor.AdminButtonText};
     border-radius: 2px;
     padding: 3px 6px 3px 6px;
-    font-size: ${AppColor.AdminTableFont};
+    font-size: 13px;
     width: auto;
     margin-top: 2px;
     margin-bottom: 2px;
@@ -155,8 +255,16 @@ export const AdminBtn = styled.button`
     transition: color .15s ease-out;
     
     &:hover {
-        background-color: ${AppColor.AdminButtonHoverColor};
-        color: ${AppColor.AdminButtonHoverText};
+        background-color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkButtonHoverColor
+            : AppColor.AdminButtonHoverColor
+        )};
+        color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkButtonHoverText
+            : AppColor.AdminButtonHoverText
+        )};
     }
 `;
 
@@ -165,8 +273,16 @@ export const ContentTabsUl = styled.ul`
     flex-direction: row;
     justify-content: center;
     padding: 2rem 4rem 2rem 4rem;
-    background-color: ${AppColor.AdminMainBackground};
-    color: ${AppColor.AdminHeaderColor};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainBackground
+        : AppColor.AdminMainBackground
+    )};
+    color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainColor
+        : AppColor.AdminHeaderColor
+    )};
     font-weight: bold;
     position: sticky;
     top: 3.9rem;
@@ -174,7 +290,11 @@ export const ContentTabsUl = styled.ul`
     box-shadow: 0 4px 3px -2px ${AppColor.AdminMainBorder};
 
     li {
-        border: ${lighten(0.6, AppColor.AdminHeaderColor)}, 0.1rem, solid;
+        border: ${(props)=>(
+            props.$dark_mode?
+            lighten(0.6, AppColor.AdminDarkHeaderColor)
+            : lighten(0.6, AppColor.AdminHeaderColor)
+        )}, 0.1rem, solid;
         padding: 1rem;
         width: 10rem;
         text-align: center;
@@ -182,7 +302,11 @@ export const ContentTabsUl = styled.ul`
     }
 
     li.chosen {
-        background-color: ${AppColor.AdminActiveTabColor};
+        background-color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkActiveTabColor
+            : AppColor.AdminActiveTabColor
+        )};
         color: ${AppColor.AdminActiveTabText};
         text-decoration: underline;
         font-weight: bold;
@@ -191,7 +315,11 @@ export const ContentTabsUl = styled.ul`
 
 export const ContentListContainerDiv = styled.div`
     display: ${(props)=>(props.$display)};
-    background-color: ${AppColor.AdminMainBackground};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainBackground
+        : AppColor.AdminMainBackground
+    )};
 `;
 
 export const ContentListTable = styled.table`
@@ -199,15 +327,23 @@ export const ContentListTable = styled.table`
     margin: .5%;
     box-shadow: ${AppColor.AdminMainBorder} 0px 0px 10px 1px;
     border-radius: 2px;
-    background-color: ${AppColor.AdminTableBackground};
-    color: ${AppColor.AdminMainColor};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkTableBackground
+        : AppColor.AdminTableBackground
+    )};
+    color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainColor
+        : AppColor.AdminMainColor
+    )};
     margin-top: .1rem;
 
     th, td {
         border: solid 1px ${AppColor.AdminMainBorder};
         border-collapse: separate;
         border-spacing: 0;
-        font-size: ${AppColor.AdminTableFont};
+        font-size: 13px;
         position: relative;
         align-content: center;
         padding: .5rem;
@@ -218,7 +354,38 @@ export const ContentListTable = styled.table`
         position: sticky; 
         top: 11.1rem; 
         z-index: 4;
-        background-color: ${AppColor.AdminTableBackground};
+        background-color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkTableBackground
+            : AppColor.AdminTableBackground
+        )};
+    }
+
+    input {
+        outline: none;
+        background-color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkLoginInputBackground
+            : AppColor.AdminLoginInputBackground
+        )};
+        border: 0.5px solid ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkMainColor
+            : AppColor.InputBorder
+        )};
+        color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkMainColor
+            : AppColor.AdminMainColor
+        )};
+
+}
+    input::placeholder{
+        color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkMainColor
+            : AppColor.AdminMainColor
+        )};
     }
 `;
 
@@ -232,8 +399,16 @@ export const ConfirmPopupContainer = styled.div`
     justify-content: center;
     align-items: center;
     z-index: 10;
-    -webkit-backdrop-filter: blur(15px) brightness(20%);
-    backdrop-filter: blur(15px) brightness(20%);
+    -webkit-backdrop-filter: blur(15px) ${(props)=>(
+        props.$dark_mode?
+        "brightness(40%)"
+        : "brightness(30%)"
+    )};
+    backdrop-filter: blur(15px) ${(props)=>(
+        props.$dark_mode?
+        "brightness(40%)"
+        : "brightness(30%)"
+    )};
 `;
 
 export const ConfirmPopupDiv = styled.div`
@@ -247,7 +422,16 @@ export const ConfirmPopupDiv = styled.div`
     left: 40%;
     min-width: 15%;
     min-height: 115px; 
-    background-color: ${AppColor.AdminTableBackground};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkTableBackground
+        : AppColor.AdminTableBackground
+    )};
+    color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainColor
+        : AppColor.AdminMainColor
+    )};
     border: 1px ${AppColor.AdminMainBorder} solid;
     border-radius: 3px;
     box-shadow: ${AppColor.AdminMainBorder} 0px 0px 15px 0px;
@@ -281,8 +465,16 @@ export const MainFormContainer = styled.div`
     justify-content: center;
     align-items: center;
     z-index: 9;
-    -webkit-backdrop-filter: blur(15px) brightness(20%);
-    backdrop-filter: blur(15px) brightness(20%);
+    -webkit-backdrop-filter: blur(15px) ${(props)=>(
+        props.$dark_mode?
+        "brightness(40%)"
+        : "brightness(30%)"
+    )};
+    backdrop-filter: blur(15px) ${(props)=>(
+        props.$dark_mode?
+        "brightness(40%)"
+        : "brightness(30%)"
+    )};
 `;
 
 export const MainFormDiv = styled.div`
@@ -296,7 +488,16 @@ export const MainFormDiv = styled.div`
     top: 10%;
     left: 20%;
     padding: 5rem;
-    background-color: ${AppColor.AdminTableBackground};
+    background-color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkTableBackground
+        : AppColor.AdminTableBackground
+    )};
+    color: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainColor
+        : AppColor.AdminMainColor
+    )};
     border: ${AppColor.AdminMainBorder} solid;
     border-radius: 3px;
     box-shadow: ${AppColor.AdminMainBorder} 0px 0px 15px 0px;
@@ -306,6 +507,25 @@ export const MainFormDiv = styled.div`
         font-weight: bold;
         font-size: 25px;
         position: relative;
+    }
+
+    input, textarea, select {
+        outline: none;
+        background-color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkLoginInputBackground
+            : AppColor.AdminLoginInputBackground
+        )};
+        border: 0.5px solid ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkMainColor
+            : AppColor.InputBorder
+        )};
+        color: ${(props)=>(
+            props.$dark_mode?
+            AppColor.AdminDarkMainColor
+            : AppColor.AdminMainColor
+        )};
     }
 
     .form-inputs {

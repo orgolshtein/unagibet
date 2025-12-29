@@ -1,7 +1,6 @@
-import styled, { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import Reset from "styled-reset";
 
-import { assetUrl } from "../api/app.api";
 import * as AppColor from "./colors";
 
 const GlobalAdminStyle = createGlobalStyle`
@@ -9,7 +8,11 @@ ${Reset}
 html {
     font: 13.5px 'Helvetica Neue',Arial;
     color: ${AppColor.AdminMainColor};
-    background: ${AppColor.AdminMainBackground};
+    background: ${(props)=>(
+        props.$dark_mode?
+        AppColor.AdminDarkMainBackground
+        : AppColor.AdminMainBackground
+    )};
     font-family: Arial,sans-serif;
 
     @media only screen and (max-width: 1024px) {

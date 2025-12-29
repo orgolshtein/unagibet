@@ -8,6 +8,7 @@ import { serverUrl } from "../../api/app.api";
 
 export default function AdminContentList () {
     const { 
+        isAdminDarkMode,
         isAdminLoggedIn,
         adminContentTab,
         loadAdminContentList,
@@ -27,7 +28,9 @@ export default function AdminContentList () {
     }, [])
 
     return(
-        <>{isAdminLoggedIn? <ContentListContainerDiv>
+        <>{isAdminLoggedIn? <ContentListContainerDiv
+            $dark_mode={isAdminDarkMode}
+        >
             {
                 adminContentErrorMessage ?
                 <h1 className="loading-failed">{adminContentErrorMessage}</h1>
@@ -38,7 +41,9 @@ export default function AdminContentList () {
                     $margin_left_medium="2rem"
                 />
                 :
-                <ContentListTable>
+                <ContentListTable
+                     $dark_mode={isAdminDarkMode}
+                >
                     <thead>
                         <tr align="left">
                             <th style={{width: "18rem"}}>
@@ -67,6 +72,7 @@ export default function AdminContentList () {
                             </th>
                             <th style={{width: "10rem"}} align="center">
                                 Order <span style={{margin: "10px"}}></span> <AdminBtn
+                                        $dark_mode={isAdminDarkMode}
                                         type="button"
                                         onClick={()=>{
                                             displayConfirmPopup("Save Changes?");
@@ -76,6 +82,7 @@ export default function AdminContentList () {
                             </th>
                             <th style={{width: "10rem"}} align="center">
                                 <AdminBtn 
+                                    $dark_mode={isAdminDarkMode}
                                     type="button" 
                                     id="add-button"
                                     onClick={()=> {
@@ -128,6 +135,7 @@ export default function AdminContentList () {
                             </td>
                             <td align="center">
                                 <AdminBtn 
+                                    $dark_mode={isAdminDarkMode}
                                     type="button"
                                     onClick={()=>{
                                         setIsAdminMainForm(true)
@@ -143,6 +151,7 @@ export default function AdminContentList () {
                                         ])
                                     }}
                                 >Edit</AdminBtn>  <AdminBtn 
+                                    $dark_mode={isAdminDarkMode}
                                     type="button"
                                     onClick={()=>{
                                         displayConfirmPopup("Delete Entry?");

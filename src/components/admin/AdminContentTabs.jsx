@@ -11,6 +11,7 @@ export default function AdminContentTabs () {
     const [tableClass, setTableClass] = useState("")
     
     const {
+        isAdminDarkMode,
         isAdminLoggedIn,
         loadAdminContentList
     } = useContext(AppContext);
@@ -47,6 +48,7 @@ export default function AdminContentTabs () {
         <>{isAdminLoggedIn?
             <ContentTabsUl
                 $display={isAdminLoggedIn? "flex" : "none"}
+                $dark_mode={isAdminDarkMode}
             >
                 <li className={bannersClass} onClick={()=>setActiveTab("banners")}>Banner Gallery</li>
                 <li className={homeClass} onClick={()=>setActiveTab("home")}>HP Games</li>
