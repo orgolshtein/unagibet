@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { AdminBtn, MainFormContainer, MainFormDiv } from "../../styles/admin";
 import { AppContext } from "../../state/AppContext";
 import { serverUrl } from "../../api/app.api";
+import { useOncePostMount } from "../../hooks/useOncePostMount";
 
 export default function AdminMainForm () {
     const {
@@ -9,10 +10,41 @@ export default function AdminMainForm () {
         isAdminLoggedIn,
         isAdminMainForm,
         setIsAdminMainForm,
-        mainFormContent,
+        mainFormCrud,
         adminSelectedObject,
+        setAdminSelectedObject,
         adminContentTab
     } = useContext(AppContext)
+
+    const formTitleInput = useRef();
+    const formDescTextArea = useRef();
+    const formTypeSelect = useRef();
+    const formNewCheckbox = useRef();
+
+    useOncePostMount(()=>{
+        if(isAdminLoggedIn && isAdminMainForm){
+            formTitleInput.current.defaultValue = adminSelectedObject? adminSelectedObject.title : ""
+            formDescTextArea? (formDescTextArea.current.defaultValue = adminSelectedObject? adminSelectedObject.description : "") : null
+            formTypeSelect? (formTypeSelect.current.value = adminSelectedObject? adminSelectedObject.type : "") : null
+            formNewCheckbox? (formNewCheckbox.current.checked = adminSelectedObject? adminSelectedObject.new : false) : null
+        }
+    });
+
+    useEffect(()=>{
+        if(isAdminLoggedIn && isAdminMainForm){
+            formTitleInput.current.defaultValue = adminSelectedObject? adminSelectedObject.title : ""
+            formDescTextArea? (formDescTextArea.current.defaultValue = adminSelectedObject? adminSelectedObject.description : "") : null
+            formTypeSelect? (formTypeSelect.current.value = adminSelectedObject? adminSelectedObject.type : "") : null
+            formNewCheckbox? (formNewCheckbox.current.checked = adminSelectedObject? adminSelectedObject.new : false) : null
+        }
+    },[adminSelectedObject]);
+
+    const resetForm = () => {
+        formTitleInput.current.defaultValue = ""
+        formDescTextArea? (formDescTextArea.current.defaultValue = ""): null
+        formTypeSelect? (formTypeSelect.current.value = "") : null
+        formNewCheckbox? (formNewCheckbox.current.checked = false) : null
+    };
 
     return(
         <>{isAdminLoggedIn && isAdminMainForm? <MainFormContainer
@@ -23,68 +55,61 @@ export default function AdminMainForm () {
             >
                 <form>
                     <fieldset className="form-inputs">
-                        <legend>{mainFormContent[0]}</legend>
+                        <legend>{mainFormCrud} {adminContentTab === "banners"? "Banner": "Game"}</legend>
                         <div>
-                            <p>{mainFormContent[1]}:</p>
+                            <p>Title:</p>
                             <p>
                                 <input
                                     type="text"
                                     autoComplete="off" 
-                                    name={mainFormContent[1].toLowerCase()} 
-                                    id={mainFormContent[1].toLowerCase()} 
-                                    className="level2-input"
-                                    defaultValue={adminSelectedObject? adminSelectedObject[mainFormContent[1].toLowerCase()] : ""}
+                                    ref={formTitleInput}
+                                    name="title" 
+                                    id="title"
                                 />
                             </p>
-                            {mainFormContent[2]? <>
-                            <p>{mainFormContent[2]}:</p>
-                            <p>
+                            <p className={adminContentTab === "banners"? "hidden" : ""}>Description:</p>
+                            <p className={adminContentTab === "banners"? "hidden" : ""}>
                                 <textarea
-                                    autoComplete="off" 
-                                    name={mainFormContent[2].toLowerCase()} 
-                                    id={mainFormContent[2].toLowerCase()} 
-                                    className="level2-input"
+                                    autoComplete="off"
+                                    ref={formDescTextArea}
+                                    name="description" 
+                                    id="description" 
                                     rows={4}
                                     cols={38}
-                                    defaultValue={adminSelectedObject? adminSelectedObject[mainFormContent[2].toLowerCase()] : ""}
                                 />
-                            </p></>: ""}
+                            </p>
                         </div>
                         <div>
-                            {mainFormContent[3]? <>
-                            <p>{mainFormContent[3]}:</p>
-                            <p>
+                            <p className={adminContentTab === "banners"? "hidden" : ""}>Type:</p>
+                            <p className={adminContentTab === "banners"? "hidden" : ""}>
                                 <select
                                     style={{minWidth: "10rem"}}
                                     autoComplete="off" 
-                                    name={mainFormContent[3].toLowerCase()} 
-                                    id={mainFormContent[3].toLowerCase()} 
-                                    className="level2-input"
-                                    defaultValue={adminSelectedObject? adminSelectedObject[mainFormContent[3].toLowerCase()] : ""}
+                                    ref={formTypeSelect}
+                                    name="type" 
+                                    id="type"
                                 >
                                     <option value=""></option>
                                     <option value="slot">Slot</option>
                                     <option value="table">Table</option>
                                 </select>
-                            </p></>: ""}
-                            {mainFormContent[4]? <>
-                            <p>{mainFormContent[4]}:</p>
-                            <p>
+                            </p>
+                            <p className={adminContentTab === "banners"? "hidden" : ""}>New:</p>
+                            <p className={adminContentTab === "banners"? "hidden" : ""}>
                                 <input 
                                     type="checkbox"
-                                    id={mainFormContent[4].toLowerCase()}
-                                    name={mainFormContent[4].toLowerCase()}
-                                    className="level2-input"
-                                    defaultChecked={adminSelectedObject && adminSelectedObject[mainFormContent[4].toLowerCase()]? true : false}
+                                    id="new"
+                                    name="new"
+                                    ref={formNewCheckbox}
                                 />
-                            </p></>: ""}
-                            <p>{adminContentTab === "banners" ? "Big Image" : "Image"}:</p>
+                            </p>
+                            <p>{adminContentTab === "banners"? "Big Image" : "Image"}:</p>
                             <p>
                                 {
                                 adminSelectedObject && adminContentTab === "banners" ?
-                                <><img src={`${serverUrl}/${adminSelectedObject[mainFormContent[5].toLowerCase()]}`} width={"180rem"}/><br /></>
+                                <><img src={`${serverUrl}/${adminSelectedObject.srcbig}`} width={"180rem"}/><br /></>
                                 : adminSelectedObject ? 
-                                <><img src={`${serverUrl}/${adminSelectedObject[mainFormContent[5].toLowerCase()]}`} width={"80rem"}/><br /></>
+                                <><img src={`${serverUrl}/${adminSelectedObject.thumb}`} width={"80rem"}/><br /></>
                                 : ""}
                                 <AdminBtn $dark_mode={isAdminDarkMode} type="button" className="level2-btn" >New Image</AdminBtn>
                             </p>
@@ -92,20 +117,22 @@ export default function AdminMainForm () {
                             <p>
                                 {
                                 adminSelectedObject && adminContentTab === "banners" ?
-                                <><img src={`${serverUrl}/${adminSelectedObject[mainFormContent[6].toLowerCase()]}`} width={"180rem"}/><br /></>
+                                <><img src={`${serverUrl}/${adminSelectedObject.srcsmall}`} width={"180rem"}/><br /></>
                                 : adminSelectedObject ? 
-                                <><img src={`${serverUrl}/${adminSelectedObject[mainFormContent[6].toLowerCase()]}`} width={"80rem"}/><br /></>
+                                <><img src={`${serverUrl}/${adminSelectedObject.thumbwide}`} width={"80rem"}/><br /></>
                                 : ""}
                                 <AdminBtn $dark_mode={isAdminDarkMode} type="button" className="level2-btn" >New Image</AdminBtn>
                             </p>
                         </div>
                     </fieldset>
                     <fieldset className="form-buttons">
-                        <AdminBtn $dark_mode={isAdminDarkMode} className="level2-btn" type="reset">Reset</AdminBtn>
+                        <AdminBtn $dark_mode={isAdminDarkMode} className="level2-btn" type="reset" onClick={
+                            ()=> resetForm()
+                        }>Reset</AdminBtn>
                         <AdminBtn $dark_mode={isAdminDarkMode} className="level2-btn" type="button" id="submit-form">Submit</AdminBtn>
                     </fieldset>
                     <AdminBtn $dark_mode={isAdminDarkMode} type="button" className="close-button level2-btn" onClick={
-                        ()=>setIsAdminMainForm(false)
+                        ()=>{setIsAdminMainForm(false), setAdminSelectedObject(undefined)}
                         }>X</AdminBtn>
                 </form>
             </MainFormDiv>

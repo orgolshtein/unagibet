@@ -515,6 +515,10 @@ export const MainFormDiv = styled.div`
     box-shadow: ${AppColor.AdminMainBorder} 0px 0px 15px 0px;
     z-index: 9;
 
+    .hidden{
+        display: none
+    }
+
     legend {
         font-weight: bold;
         font-size: 25px;

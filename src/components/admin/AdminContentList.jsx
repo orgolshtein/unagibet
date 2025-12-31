@@ -20,7 +20,7 @@ export default function AdminContentList () {
         setAdminConfirmPopupSuccessMsg,
         setAdminSelectedObject,
         setIsAdminMainForm,
-        setMainFormContent
+        setMainFormCrud
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -88,15 +88,7 @@ export default function AdminContentList () {
                                     onClick={()=> {
                                             setIsAdminMainForm(true)
                                             setAdminSelectedObject(undefined)
-                                            setMainFormContent([
-                                                adminContentTab === "banners"? "New Banner" : "New Game",
-                                                "Title",
-                                                adminContentTab === "banners"? null: "Description",
-                                                adminContentTab === "banners"? null: "Type",
-                                                adminContentTab === "banners"? null: "New",
-                                                adminContentTab === "banners"? "srcbig": "thumb",
-                                                adminContentTab === "banners"? "srcsmall": "thumbwide"
-                                            ])
+                                            setMainFormCrud("New")
                                         }}
                                 >+</AdminBtn>
                             </th>
@@ -140,15 +132,7 @@ export default function AdminContentList () {
                                     onClick={()=>{
                                         setIsAdminMainForm(true)
                                         setAdminSelectedObject(item)
-                                        setMainFormContent([
-                                            adminContentTab === "banners"? "Update Banner" : "Update Game",
-                                            "Title",
-                                            adminContentTab === "banners"? null: "Description",
-                                            adminContentTab === "banners"? null: "Type",
-                                            adminContentTab === "banners"? null: "New",
-                                            adminContentTab === "banners"? "srcbig": "thumb",
-                                            adminContentTab === "banners"? "srcsmall": "thumbwide"
-                                        ])
+                                        setMainFormCrud("Update")
                                     }}
                                 >Edit</AdminBtn>  <AdminBtn 
                                     $dark_mode={isAdminDarkMode}

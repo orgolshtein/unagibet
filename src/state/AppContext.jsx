@@ -35,7 +35,7 @@ const AppProvider = ({children}) =>{
   const [adminContentTab, setAdminContentTab] = useState("");
   const [adminSelectedObject, setAdminSelectedObject] = useState(undefined);
   const [adminContentList, setAdminContentList] = useState(undefined);
-  const [mainFormContent, setMainFormContent] = useState({});
+  const [mainFormCrud, setMainFormCrud] = useState("");
   const [adminContentListOrderProp, setAdminContentListOrderProp] = useState("")
   const [sliderErrorMessage, setSliderErrorMessage] = useState("");
   const [gamesErrorMessage, setGamesErrorMessage] = useState("");
@@ -228,7 +228,7 @@ const AppProvider = ({children}) =>{
     isAdminMainForm,
     isAdminConfirmPopup,
     isAdminConfirmAlertOnly,
-    mainFormContent,
+    mainFormCrud,
     sliderErrorMessage,
     gamesErrorMessage,
     adminLoginMessage,
@@ -266,7 +266,7 @@ const AppProvider = ({children}) =>{
     setIsAdminConfirmPopup,
     setIsAdminConfirmAlertOnly,
     loadAdminContentList,
-    setMainFormContent,
+    setMainFormCrud,
     setSliderErrorMessage,
     setGamesErrorMessage,
     setAdminLoginMessage,
