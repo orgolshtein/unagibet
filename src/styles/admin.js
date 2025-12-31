@@ -320,6 +320,18 @@ export const ContentListContainerDiv = styled.div`
         AppColor.AdminDarkMainBackground
         : AppColor.AdminMainBackground
     )};
+
+    .loading-failed{
+        grid-column-start: 1;
+        grid-column-end: 7;
+        padding-top: 2rem;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 1rem 0;
+        line-height: 1.1;
+        color: ${AppColor.ErrorText};
+        text-align: center;
+    }
 `;
 
 export const ContentListTable = styled.table`
